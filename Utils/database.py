@@ -2,7 +2,7 @@ import csv
 """
 books stored in this file
 """
-books_read = []
+books_extra = []
 
 books = [
     {
@@ -89,7 +89,7 @@ def read_extra_books():
             author = line['author']
             read = line['read']
             books.append({'name': name, 'author': author, 'read': read})
-            books_read.append({'name': name, 'author': author, 'read': read})
+            books_extra.append({'name': name, 'author': author, 'read': read})
             counter += 1
         print(f'{counter} added book(s)')
 
@@ -98,4 +98,4 @@ def save_books():
     with open('Utils/books.csv', 'w') as f:
         writer = csv.DictWriter(f, fieldnames=['name', 'author', 'read'])
         writer.writeheader()
-        writer.writerows(books_read)
+        writer.writerows(books)

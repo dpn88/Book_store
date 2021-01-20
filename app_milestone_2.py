@@ -17,8 +17,6 @@ Enter:
 - 'r' to mark a book as read
 - 'd' to delete a book
 - 'q' to quit
-- 'e' to read more books from database
-- 's' to save your library to database - not implemented yet
 """
 
 menu_choice = {
@@ -26,8 +24,6 @@ menu_choice = {
     'l': database.list_books,
     'r': database.prompt_read_book,
     'd': database.prompt_delete_book,
-    'e': database.read_extra_books,
-    's': database.save_books
 }
 
 

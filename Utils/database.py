@@ -1,4 +1,4 @@
-import csv
+import json
 """
 functions needed by main file to process data stored in books.csv
 """
@@ -10,6 +10,7 @@ books = []
 
 def prompt_add_book():  # adds a book to the books.csv file and prompts was the book read or not
     read_books()
+    global books
     name = input("Enter the Book title: ").capitalize()
     author = input("Enter the Books author: ").capitalize()
     read = (input("have you read the Book? y/n: ").lower())
@@ -33,7 +34,7 @@ def prompt_add_book():  # adds a book to the books.csv file and prompts was the 
 
 def list_books():   # fetches the data from books.csv na prints it out
     read_books()
-    library = books
+    library = read_books()
     for book in library:
         if book['read'] == 'True':
             read = 'read'
@@ -44,7 +45,8 @@ def list_books():   # fetches the data from books.csv na prints it out
 
 
 def prompt_read_book():     # allows to mark a book as "read" and checks was the book already marked or not
-    read_books()
+    global books
+    books = read_books()
     name = input('\nWhat book are you looking for? ').lower()
     counter = []
     for book in books:
@@ -64,7 +66,8 @@ def prompt_read_book():     # allows to mark a book as "read" and checks was the
 
 
 def prompt_delete_book():   # deletes a book from the database
-    read_books()
+    global books
+    books = read_books()
     name = input('\nWhat book would you like to delete? ').lower()
     for i in range(len(books)):
         if books[i]['name'].lower() == name:
@@ -81,17 +84,12 @@ def prompt_delete_book():   # deletes a book from the database
 
 
 def read_books():   # function used by other functions to fetch data from database
-    with open('Utils/books.csv', 'r') as f:
-        reader = csv.DictReader(f)
-        for line in reader:
-            name = line['name']
-            author = line['author']
-            read = line['read']
-            books.append({'name': name, 'author': author, 'read': read})
+    with open('Utils/books.json', 'r') as f:
+        global books
+        books = json.load(f)
+        return books
 
 
 def save_books():   # function used by other functions to save data to database
-    with open('Utils/books.csv', 'w') as f:
-        writer = csv.DictWriter(f, fieldnames=['name', 'author', 'read'])
-        writer.writeheader()
-        writer.writerows(books)
+    with open('Utils/books.json', 'w') as f:
+        json.dump(books, f)
